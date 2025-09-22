@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Özür Dilerim</title>
+  <style>
+    :root{--bg:#fff8fb;--card:#fff;--accent:#ff5b7f;--muted:#666}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    body{display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff8fb 0%, #fff1f6 100%);padding:20px}
+
+    .card{width:100%;max-width:420px;background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.08);padding:28px;text-align:center;position:relative;overflow:hidden}
+    h1{margin:0;font-size:28px;color:var(--accent);letter-spacing:0.2px}
+    p{color:var(--muted);margin:8px 0 20px;font-size:18px}
+
+    .buttons{display:flex;gap:12px;justify-content:center}
+    button{appearance:none;border:0;padding:12px 20px;border-radius:12px;font-size:18px;font-weight:600}
+    .yes{background:linear-gradient(90deg,#ff7aa3,#ff4f78);color:white;box-shadow:0 6px 18px rgba(255,90,120,0.18)}
+    .no{background:transparent;border:2px solid #ddd;color:#333}
+
+    /* make "hayır" free-moving container */
+    .no-wrap{position:relative;width:170px;height:52px;display:inline-block}
+    .no-btn{position:absolute;left:0;top:0;}
+
+    /* heart rain */
+    .hearts{pointer-events:none;position:absolute;inset:0;overflow:hidden}
+    .heart{position:absolute;left:50%;top:-10%;font-size:20px;opacity:0;transform:translateX(-50%) scale(0.6);animation:fall 2400ms linear forwards}
+    @keyframes fall{
+      0%{opacity:0;transform:translateY(-10vh) translateX(0) rotate(0deg) scale(0.6)}
+      10%{opacity:1}
+      100%{opacity:0;transform:translateY(110vh) translateX(100px) rotate(360deg) scale(1)}
+    }
+
+    /* responsive tweaks */
+    @media (max-width:420px){.card{padding:20px;border-radius:12px}h1{font-size:24px}p{font-size:16px}button{font-size:16px;padding:12px 16px}}
+
+    /* small message after accept */
+    .result{margin-top:16px;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <h1>Özür dilerim</h1>
+    <p>Beni affeder misin?</p>
+
+    <div class="buttons">
+      <button class="yes" id="yesBtn">Evet</button>
+
+      <div class="no-wrap" id="noWrap" aria-hidden="false">
+        <button class="no no-btn" id="noBtn">Hayır</button>
+      </div>
+    </div>
+
+    <div class="result" id="result"></div>
+    <div class="hearts" id="hearts"></div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const noWrap = document.getElementById('noWrap');
+    const hearts = document.getElementById('hearts');
+    const result = document.getElementById('result');
+    const card = document.getElementById('card');
+
+    // make sure layout is ready
+    function rand(min, max){return Math.floor(Math.random()*(max-min+1))+min}
+
+    // Heart rain when "Evet" clicked
+    yesBtn.addEventListener('click', ()=>{
+      yesBtn.disabled = true; noBtn.disabled = true;
+      result.textContent = 'Seni affettim ❤️';
+
+      // spawn hearts for 2 seconds
+      const duration = 2000; const interval = 120;
+      const end = Date.now() + duration;
+      const spawn = setInterval(()=>{
+        createHeart();
+        if(Date.now() > end) clearInterval(spawn);
+      }, interval);
+
+      // small pulse animation for card
+      card.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:600,iterations:1});
+    });
+
+    function createHeart(){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      // choose a random heart emoji variant
+      const heartsList = ['❤️','💖','💘','💓','💕','💗'];
+      h.textContent = heartsList[rand(0,heartsList.length-1)];
+      // random horizontal starting position
+      const startX = rand(5,95);
+      h.style.left = startX + '%';
+      h.style.fontSize = rand(18,34) + 'px';
+      // random animation duration variation
+      const secs = rand(1800,3200);
+      h.style.animationDuration = secs + 'ms';
+      // small horizontal drift
+      const drift = rand(-80,80);
+      h.style.setProperty('--drift', drift + 'px');
+      hearts.appendChild(h);
+      // remove after animation
+      setTimeout(()=>{h.remove()}, secs+200);
+    }
+
+    // Move "Hayır" button to random place inside the card when user tries to tap or hover.
+    function moveNo(){
+      const wrapRect = noWrap.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      // available area inside card for the top-left of the button
+      const maxX = Math.max(cardRect.width - btnRect.width - 20, 0);
+      const maxY = Math.max(cardRect.height - btnRect.height - 20, 0);
+
+      // compute random positions (keep it inside and not overlapping the yes button too much)
+      const x = rand(0, Math.floor(maxX));
+      const y = rand(0, Math.floor(maxY));
+
+      // apply transform inside the relative wrapper
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    // On hover (desktop) or touchstart (phone) move it
+    noBtn.addEventListener('mouseenter', moveNo);
+    noBtn.addEventListener('touchstart', function(e){ e.preventDefault(); moveNo(); },{passive:false});
+
+    // Also move when user clicks (for extra silliness)
+    noBtn.addEventListener('click', (e)=>{ e.preventDefault(); moveNo(); });
+
+    // For accessibility: if user manages to focus and press Enter/Space, consider that a "No" response
+    noBtn.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); moveNo(); } });
+
+    // initial tiny random offset so "hayır" isn't exactly static at first
+    moveNo();
+
+    // prevent double-tap zoom on iOS to keep interaction smooth
+    document.addEventListener('touchstart', function(){}, {passive:true});
+  </script>
+</body>
+</html>
