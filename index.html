@@ -5,38 +5,53 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Özür Dilerim</title>
   <style>
-    :root{--bg:#fff8fb;--card:#fff;--accent:#ff5b7f;--muted:#666}
+    :root{--bg1:#ffeef6;--bg2:#fff1f8;--card:#ffffff;--accent:#ff597e;--muted:#555}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
-    body{display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff8fb 0%, #fff1f6 100%);padding:20px}
+    body{display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);padding:18px}
 
-    .card{width:100%;max-width:420px;background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.08);padding:28px;text-align:center;position:relative;overflow:hidden}
-    h1{margin:0;font-size:28px;color:var(--accent);letter-spacing:0.2px}
-    p{color:var(--muted);margin:8px 0 20px;font-size:18px}
-
-    .buttons{display:flex;gap:12px;justify-content:center}
-    button{appearance:none;border:0;padding:12px 20px;border-radius:12px;font-size:18px;font-weight:600}
-    .yes{background:linear-gradient(90deg,#ff7aa3,#ff4f78);color:white;box-shadow:0 6px 18px rgba(255,90,120,0.18)}
-    .no{background:transparent;border:2px solid #ddd;color:#333}
-
-    /* make "hayır" free-moving container */
-    .no-wrap{position:relative;width:170px;height:52px;display:inline-block}
-    .no-btn{position:absolute;left:0;top:0;}
-
-    /* heart rain */
-    .hearts{pointer-events:none;position:absolute;inset:0;overflow:hidden}
-    .heart{position:absolute;left:50%;top:-10%;font-size:20px;opacity:0;transform:translateX(-50%) scale(0.6);animation:fall 2400ms linear forwards}
-    @keyframes fall{
-      0%{opacity:0;transform:translateY(-10vh) translateX(0) rotate(0deg) scale(0.6)}
-      10%{opacity:1}
-      100%{opacity:0;transform:translateY(110vh) translateX(100px) rotate(360deg) scale(1)}
+    /* soft floral pattern using radial gradients */
+    body::before{
+      content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.18;background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,200,230,0.35) 0 60px, transparent 61px),
+        radial-gradient(circle at 80% 10%, rgba(255,230,240,0.25) 0 80px, transparent 81px),
+        radial-gradient(circle at 40% 80%, rgba(255,210,230,0.22) 0 50px, transparent 51px);
+      mix-blend-mode:screen;
     }
 
-    /* responsive tweaks */
-    @media (max-width:420px){.card{padding:20px;border-radius:12px}h1{font-size:24px}p{font-size:16px}button{font-size:16px;padding:12px 16px}}
+    .card{width:100%;max-width:420px;background:var(--card);border-radius:18px;box-shadow:0 14px 40px rgba(20,6,30,0.08);padding:28px;text-align:center;position:relative;overflow:hidden;z-index:1}
+    h1{margin:0;font-size:30px;color:var(--accent);letter-spacing:0.2px}
+    p{color:var(--muted);margin:8px 0 20px;font-size:18px}
 
-    /* small message after accept */
-    .result{margin-top:16px;font-weight:600}
+    .buttons{display:flex;gap:12px;justify-content:center;align-items:center}
+    button{appearance:none;border:0;padding:12px 20px;border-radius:12px;font-size:18px;font-weight:700;cursor:pointer}
+    .yes{background:linear-gradient(90deg,#ff8cb0,#ff5b86);color:white;box-shadow:0 8px 24px rgba(255,90,140,0.16)}
+    .no{background:transparent;border:2px solid #ffd1df;color:#5a3a48}
+
+    .no-wrap{position:relative;width:170px;height:52px;display:inline-block}
+    .no-btn{position:absolute;left:0;top:0;transition:transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 160ms}
+
+    .result{margin-top:16px;font-weight:700;color:#6b2f44}
+
+    /* balloons floating in background */
+    .balloons{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .balloon{position:absolute;bottom:-20%;width:36px;height:50px;border-radius:50% 50% 45% 45%;display:flex;align-items:flex-end;justify-content:center;font-size:18px;transform-origin:center bottom;opacity:0.9}
+    .balloon::after{content:"";position:absolute;bottom:-18px;width:2px;height:26px;background:rgba(0,0,0,0.06);left:50%;transform:translateX(-50%)}
+
+    /* small css flower sprites */
+    .flowers{position:absolute;left:0;right:0;bottom:0;height:120px;pointer-events:none;z-index:0;opacity:0.95}
+    .flower{position:absolute;width:38px;height:38px;border-radius:50%;}
+    /* simple flower look using gradients */
+    .flower:before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff 0 6px, transparent 7px), conic-gradient(from 0deg, #ffd3e3, #ffb0d2, #ffcce0);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+
+    /* heart rain (kept) */
+    .hearts{pointer-events:none;position:absolute;inset:0;overflow:hidden;z-index:2}
+    .heart{position:absolute;font-size:20px;opacity:0;transform:translateX(-50%) scale(0.6);animation:fall linear forwards}
+    @keyframes fall{0%{opacity:0;transform:translateY(-10vh) translateX(0) rotate(0deg) scale(0.6)}10%{opacity:1}100%{opacity:0;transform:translateY(110vh) translateX(50px) rotate(360deg) scale(1)}}
+
+    /* responsive tweaks */
+    @media (max-width:420px){.card{padding:18px;border-radius:14px}h1{font-size:24px}p{font-size:16px}button{font-size:16px;padding:10px 14px}}
+
   </style>
 </head>
 <body>
@@ -54,6 +69,9 @@
 
     <div class="result" id="result"></div>
     <div class="hearts" id="hearts"></div>
+
+    <div class="balloons" id="balloons" aria-hidden="true"></div>
+    <div class="flowers" id="flowers" aria-hidden="true"></div>
   </div>
 
   <script>
@@ -63,81 +81,106 @@
     const hearts = document.getElementById('hearts');
     const result = document.getElementById('result');
     const card = document.getElementById('card');
+    const balloons = document.getElementById('balloons');
+    const flowers = document.getElementById('flowers');
 
-    // make sure layout is ready
-    function rand(min, max){return Math.floor(Math.random()*(max-min+1))+min}
+    function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
 
-    // Heart rain when "Evet" clicked
+    // YES: show message "Affettiğin için teşekkürler" and spawn hearts + balloons
     yesBtn.addEventListener('click', ()=>{
       yesBtn.disabled = true; noBtn.disabled = true;
-      result.textContent = 'Seni affettim ❤️';
+      result.textContent = 'Affettiğin için teşekkürler ❤️';
 
-      // spawn hearts for 2 seconds
-      const duration = 2000; const interval = 120;
-      const end = Date.now() + duration;
-      const spawn = setInterval(()=>{
-        createHeart();
-        if(Date.now() > end) clearInterval(spawn);
-      }, interval);
+      // hearts
+      const heartDur = 2200; const heartInterval = 110;
+      const heartEnd = Date.now()+2000;
+      const spawnH = setInterval(()=>{ createHeart(); if(Date.now()>heartEnd) clearInterval(spawnH); }, heartInterval);
 
-      // small pulse animation for card
-      card.animate([{transform:'scale(1)'},{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:600,iterations:1});
+      // balloons: gentle float up for 3s
+      spawnBalloons(6);
+
+      card.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:700,iterations:1});
     });
 
     function createHeart(){
-      const h = document.createElement('div');
-      h.className = 'heart';
-      // choose a random heart emoji variant
-      const heartsList = ['❤️','💖','💘','💓','💕','💗'];
-      h.textContent = heartsList[rand(0,heartsList.length-1)];
-      // random horizontal starting position
-      const startX = rand(5,95);
-      h.style.left = startX + '%';
-      h.style.fontSize = rand(18,34) + 'px';
-      // random animation duration variation
-      const secs = rand(1800,3200);
-      h.style.animationDuration = secs + 'ms';
-      // small horizontal drift
-      const drift = rand(-80,80);
-      h.style.setProperty('--drift', drift + 'px');
+      const h = document.createElement('div'); h.className='heart';
+      const list = ['❤️','💖','💘','💓','💕','💗'];
+      h.textContent = list[rand(0,list.length-1)];
+      const left = rand(8,92); h.style.left = left+'%';
+      h.style.fontSize = rand(18,36)+'px';
+      const secs = rand(1600,3200); h.style.animationDuration = secs+'ms';
       hearts.appendChild(h);
-      // remove after animation
-      setTimeout(()=>{h.remove()}, secs+200);
+      setTimeout(()=>h.remove(), secs+200);
     }
 
-    // Move "Hayır" button to random place inside the card when user tries to tap or hover.
+    function spawnBalloons(n){
+      balloons.innerHTML='';
+      for(let i=0;i<n;i++){
+        const b = document.createElement('div'); b.className='balloon';
+        const size = rand(28,56); b.style.width = size+'px'; b.style.height = Math.round(size*1.35)+'px';
+        const startLeft = rand(6,92); b.style.left = startLeft+'%';
+        // pastel colors
+        const colors = ['#ffd1e6','#ffb3d6','#ffccd9','#ffd8e8','#ffe6f2'];
+        b.style.background = colors[rand(0,colors.length-1)];
+        // animation
+        const dur = rand(2600,4200);
+        b.style.transition = `transform ${dur}ms ease-in, bottom ${dur}ms linear, opacity ${dur}ms`;
+        balloons.appendChild(b);
+        // float up
+        setTimeout(()=>{ b.style.transform = `translateY(-140vh) rotate(${rand(-40,40)}deg) scale(1.05)`; b.style.opacity=0.98; }, 50+rand(0,300));
+        // remove after
+        setTimeout(()=>{ b.remove() }, dur+800);
+      }
+    }
+
+    // flowers at bottom as decorative sprites
+    function placeFlowers(){
+      flowers.innerHTML='';
+      const count = 8;
+      for(let i=0;i<count;i++){
+        const f = document.createElement('div'); f.className='flower';
+        const left = rand(2,96); const bottom = rand(6,30);
+        f.style.left = left+'%'; f.style.bottom = bottom+'px';
+        const scale = rand(70,120)/100; f.style.transform = `scale(${scale})`;
+        flowers.appendChild(f);
+      }
+    }
+    placeFlowers();
+
+    // Improved "Hayır" behavior: dodge on hover/touch, and if clicked shrink + fly away
     function moveNo(){
-      const wrapRect = noWrap.getBoundingClientRect();
-      const cardRect = card.getBoundingClientRect();
       const btnRect = noBtn.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      const yesRect = yesBtn.getBoundingClientRect();
 
-      // available area inside card for the top-left of the button
-      const maxX = Math.max(cardRect.width - btnRect.width - 20, 0);
-      const maxY = Math.max(cardRect.height - btnRect.height - 20, 0);
+      const padding = 14;
+      const maxX = Math.max(cardRect.width - btnRect.width - padding, 0);
+      const maxY = Math.max(cardRect.height - btnRect.height - padding, 0);
 
-      // compute random positions (keep it inside and not overlapping the yes button too much)
-      const x = rand(0, Math.floor(maxX));
-      const y = rand(0, Math.floor(maxY));
+      let attempt=0; let x,y;
+      do{
+        x = rand(0, Math.floor(maxX));
+        y = rand(0, Math.floor(maxY));
+        attempt++;
+        // avoid placing too close to yes button
+        const absX = cardRect.left + x; const absY = cardRect.top + y;
+        const dist = Math.hypot((absX - yesRect.left), (absY - yesRect.top));
+        if(dist>80) break;
+      } while(attempt<12);
 
-      // apply transform inside the relative wrapper
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      // animate move
+      noBtn.style.transition = 'transform 260ms cubic-bezier(.2,.9,.2,1)';
+      noBtn.style.transform = `translate(${x}px, ${y}px) scale(1)`;
+      // tiny shadow to show "jump"
+      noBtn.style.boxShadow = '0 8px 20px rgba(0,0,0,0.08)';
+      setTimeout(()=>{ noBtn.style.boxShadow=''; }, 320);
     }
 
-    // On hover (desktop) or touchstart (phone) move it
     noBtn.addEventListener('mouseenter', moveNo);
-    noBtn.addEventListener('touchstart', function(e){ e.preventDefault(); moveNo(); },{passive:false});
+    noBtn.addEventListener('touchstart', function(e){ e.preventDefault(); moveNo(); }, {passive:false});
+    noBtn.addEventListener('mousemove', function(e){ /* extra responsiveness on some mobiles */ if(e.movementX||e.movementY) moveNo(); });
 
-    // Also move when user clicks (for extra silliness)
-    noBtn.addEventListener('click', (e)=>{ e.preventDefault(); moveNo(); });
-
-    // For accessibility: if user manages to focus and press Enter/Space, consider that a "No" response
-    noBtn.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); moveNo(); } });
-
-    // initial tiny random offset so "hayır" isn't exactly static at first
-    moveNo();
-
-    // prevent double-tap zoom on iOS to keep interaction smooth
-    document.addEventListener('touchstart', function(){}, {passive:true});
-  </script>
-</body>
-</html>
+    // If user *manages* to click "Hayır", give a playful shrink and fly-away animation
+    noBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      // shrink and rotate and move to top-right
