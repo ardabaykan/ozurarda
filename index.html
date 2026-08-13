@@ -1,164 +1,782 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Özür Dilerim</title>
+  <meta charset="UTF-8" />
+
+  <!-- iPhone / mobil uyumluluk -->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+  />
+
+  <meta name="theme-color" content="#ffd9e8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <title>Özür Dilerim 💗</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
     body {
+      width: 100%;
+      height: 100%;
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
+      padding: 0;
+      overflow: hidden;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(
+          circle at top,
+          #ffeaf2 0%,
+          #ffd9e8 45%,
+          #ffd1e2 100%
+        );
+
+      min-height: 100svh;
+
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background: linear-gradient(180deg, #ffd6e8, #ffe6f2);
-      overflow: hidden;
-    }
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      text-align: center;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      position: relative;
-      max-width: 400px;
-      width: 90%;
-    }
-    h1 {
-      color: #ff4f78;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: #444;
-    }
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
+
+      padding:
+        max(20px, env(safe-area-inset-top))
+        max(20px, env(safe-area-inset-right))
+        max(20px, env(safe-area-inset-bottom))
+        max(20px, env(safe-area-inset-left));
+
       position: relative;
     }
-    button {
-      padding: 12px 24px;
-      border-radius: 12px;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-    .yes {
-      background: linear-gradient(90deg,#ff7aa3,#ff4f78);
-      color: white;
-      box-shadow: 0 4px 10px rgba(255,90,120,0.3);
-    }
-    .no {
-      background: #fff0f5;
-      border: 2px solid #ff4f78;
-      color: #ff4f78;
-      position: absolute;
-    }
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #ff4f78;
-    }
-    .hearts, .balloons {
-      pointer-events: none;
+
+    /* Arkaplan kalpleri */
+    .heart-bg {
       position: fixed;
       inset: 0;
+      pointer-events: none;
       overflow: hidden;
-      z-index: -1;
+      z-index: 0;
     }
-    .heart, .balloon {
+
+    .heart {
       position: absolute;
-      font-size: 24px;
-      animation: float 4s linear forwards;
+      bottom: -60px;
+      opacity: 0.12;
+      animation: yukari linear infinite;
+      user-select: none;
     }
-    @keyframes float {
-      0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+
+    @keyframes yukari {
+      from {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      to {
+        transform: translateY(-120vh) rotate(30deg);
+      }
+    }
+
+    /* Ana kart */
+    .card {
+      width: min(92vw, 430px);
+
+      background: rgba(255, 255, 255, 0.94);
+
+      border-radius: 30px;
+
+      padding: 38px 25px 32px;
+
+      text-align: center;
+
+      box-shadow:
+        0 25px 70px rgba(125, 50, 78, 0.18);
+
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      position: relative;
+      z-index: 5;
+
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .emoji {
+      font-size: 55px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0;
+
+      color: #ff4f7b;
+
+      font-size: clamp(32px, 9vw, 44px);
+
+      font-weight: 800;
+
+      letter-spacing: -1.5px;
+    }
+
+    .soru {
+      margin-top: 15px;
+      margin-bottom: 30px;
+
+      color: #4f4f55;
+
+      font-size: 19px;
+    }
+
+    /* Evet */
+    #evet {
+      border: none;
+
+      background:
+        linear-gradient(
+          135deg,
+          #ff7197,
+          #ff476f
+        );
+
+      color: white;
+
+      font-size: 18px;
+      font-weight: 700;
+
+      padding: 16px 30px;
+
+      border-radius: 16px;
+
+      min-width: 125px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 12px 25px rgba(255, 71, 111, 0.32);
+
+      transition: 0.2s;
+
+      touch-action: manipulation;
+    }
+
+    #evet:active {
+      transform: scale(0.94);
+    }
+
+    .alt-yazi {
+      margin-top: 28px;
+
+      color: #ff4f7b;
+
+      font-weight: 700;
+
+      font-size: 15px;
+
+      line-height: 1.5;
+    }
+
+    /* KAÇAN HAYIR */
+    #hayir {
+      position: fixed;
+
+      z-index: 9999;
+
+      border: 2px solid #ff527d;
+
+      background: rgba(255, 255, 255, 0.96);
+
+      color: #ff527d;
+
+      font-weight: 700;
+
+      font-size: 17px;
+
+      min-width: 105px;
+      height: 52px;
+
+      border-radius: 15px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 8px 20px rgba(255, 82, 125, 0.18);
+
+      transition:
+        left 0.14s cubic-bezier(.2, .8, .2, 1),
+        top 0.14s cubic-bezier(.2, .8, .2, 1),
+        transform 0.14s ease;
+
+      user-select: none;
+      -webkit-user-select: none;
+
+      touch-action: none;
+    }
+
+    /* Affedildi ekranı */
+    #basarili {
+      display: none;
+    }
+
+    #basarili .buyuk {
+      font-size: 75px;
+    }
+
+    #basarili h2 {
+      color: #ff4f7b;
+
+      font-size: 32px;
+
+      margin:
+        15px
+        0
+        10px;
+    }
+
+    #basarili p {
+      color: #555;
+
+      font-size: 18px;
+
+      line-height: 1.6;
+    }
+
+    /* Konfeti */
+    .confetti {
+      position: fixed;
+
+      width: 10px;
+      height: 18px;
+
+      top: -30px;
+
+      border-radius: 3px;
+
+      pointer-events: none;
+
+      z-index: 99999;
+
+      animation: dus 2.2s linear forwards;
+    }
+
+    @keyframes dus {
+      to {
+        transform:
+          translateY(115vh)
+          rotate(720deg);
+
+        opacity: 0.8;
+      }
+    }
+
+    /* Küçük iPhone ekranları */
+    @media (max-width: 380px) {
+      .card {
+        padding: 30px 18px;
+      }
+
+      .emoji {
+        font-size: 48px;
+      }
+
+      .soru {
+        font-size: 17px;
+      }
+
+      #evet,
+      #hayir {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
-<body>
-  <div class="card" id="card">
-    <h1>Özür dilerim</h1>
-    <p>Beni affeder misin?</p>
 
-    <div class="buttons">
-      <button class="yes" id="yesBtn">Evet</button>
-      <button class="no" id="noBtn">Hayır</button>
+<body>
+
+  <div class="heart-bg" id="heartBg"></div>
+
+  <div class="card">
+
+    <div id="soruEkrani">
+
+      <div class="emoji">
+        🥺💗
+      </div>
+
+      <h1>
+        Özür dilerim
+      </h1>
+
+      <p class="soru">
+        Beni affeder misin?
+      </p>
+
+      <button id="evet">
+        Evet 💕
+      </button>
+
+      <div class="alt-yazi">
+        Söz, seni bir daha üzmemeye çalışacağım. 🌷
+      </div>
+
     </div>
 
-    <div class="result" id="result"></div>
-    <div class="hearts" id="hearts"></div>
-    <div class="balloons" id="balloons"></div>
+
+    <div id="basarili">
+
+      <div class="buyuk">
+        🥹💖
+      </div>
+
+      <h2>
+        Yaşasın!
+      </h2>
+
+      <p>
+        Affettiğin için teşekkür ederim.
+        <br>
+        İyi ki varsın. 💗
+      </p>
+
+    </div>
+
   </div>
 
-  <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const result = document.getElementById("result");
-    const hearts = document.getElementById("hearts");
-    const balloons = document.getElementById("balloons");
-    const card = document.getElementById("card");
 
-    function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  <button id="hayir">
+    Hayır
+  </button>
 
-    yesBtn.addEventListener("click", ()=>{
-      result.textContent = "Affettiğin için teşekkürler ❤️";
-      spawnAnimation();
-    });
 
-    // kalp ve balon oluşturma
-    function spawnAnimation(){
-      const duration = 3000;
-      const interval = 200;
-      const end = Date.now()+duration;
-      const spawn = setInterval(()=>{
-        createHeart();
-        createBalloon();
-        if(Date.now()>end) clearInterval(spawn);
-      }, interval);
+<script>
+
+  const hayir = document.getElementById("hayir");
+
+  const evet = document.getElementById("evet");
+
+  const soruEkrani =
+    document.getElementById("soruEkrani");
+
+  const basarili =
+    document.getElementById("basarili");
+
+
+  /*
+  -----------------------------
+  HAYIR BUTONUNU BAŞLANGIÇTA
+  EVETİN YANINA KOY
+  -----------------------------
+  */
+
+  function ilkKonum() {
+
+    const evetRect =
+      evet.getBoundingClientRect();
+
+    const buttonWidth =
+      hayir.offsetWidth;
+
+    const buttonHeight =
+      hayir.offsetHeight;
+
+    let x =
+      evetRect.right + 15;
+
+    let y =
+      evetRect.top +
+      (evetRect.height - buttonHeight) / 2;
+
+
+    /*
+    Eğer telefon küçükse
+    Evet'in altına koy
+    */
+
+    if (
+      x + buttonWidth >
+      window.innerWidth - 15
+    ) {
+
+      x =
+        (window.innerWidth - buttonWidth) / 2;
+
+      y =
+        evetRect.bottom + 15;
     }
-    function createHeart(){
-      const h=document.createElement("div");
-      h.className="heart";
-      h.textContent=["❤️","💖","💕","💗"][rand(0,3)];
-      h.style.left=rand(0,100)+"%";
-      h.style.fontSize=rand(20,36)+"px";
-      h.style.animationDuration=rand(3000,5000)+"ms";
-      hearts.appendChild(h);
-      setTimeout(()=>h.remove(),5000);
-    }
-    function createBalloon(){
-      const b=document.createElement("div");
-      b.className="balloon";
-      b.textContent=["🎈","🎉","🌸","🌹"][rand(0,3)];
-      b.style.left=rand(0,100)+"%";
-      b.style.fontSize=rand(24,40)+"px";
-      b.style.animationDuration=rand(4000,6000)+"ms";
-      balloons.appendChild(b);
-      setTimeout(()=>b.remove(),6000);
+
+
+    hayir.style.left =
+      x + "px";
+
+    hayir.style.top =
+      y + "px";
+  }
+
+
+  window.addEventListener(
+    "load",
+    ilkKonum
+  );
+
+
+  window.addEventListener(
+    "resize",
+    ilkKonum
+  );
+
+
+  /*
+  -----------------------------
+  HAYIR KAÇMA FONKSİYONU
+  -----------------------------
+  */
+
+  function kac() {
+
+    const buttonWidth =
+      hayir.offsetWidth;
+
+    const buttonHeight =
+      hayir.offsetHeight;
+
+
+    const margin = 15;
+
+
+    const minX =
+      margin;
+
+    const maxX =
+      window.innerWidth -
+      buttonWidth -
+      margin;
+
+
+    const minY =
+      Math.max(
+        margin,
+        window.visualViewport
+          ? window.visualViewport.offsetTop + margin
+          : margin
+      );
+
+
+    const ekranYuksekligi =
+      window.visualViewport
+        ? window.visualViewport.height
+        : window.innerHeight;
+
+
+    const maxY =
+      ekranYuksekligi -
+      buttonHeight -
+      margin;
+
+
+    let randomX;
+
+    let randomY;
+
+
+    /*
+    Eski konumdan uzağa kaçması için
+    birkaç kez yeni konum üret
+    */
+
+    for (let i = 0; i < 20; i++) {
+
+      randomX =
+        Math.random() *
+        (maxX - minX) +
+        minX;
+
+      randomY =
+        Math.random() *
+        (maxY - minY) +
+        minY;
+
+
+      const eskiX =
+        parseFloat(
+          hayir.style.left
+        ) || 0;
+
+      const eskiY =
+        parseFloat(
+          hayir.style.top
+        ) || 0;
+
+
+      const mesafe =
+        Math.hypot(
+          randomX - eskiX,
+          randomY - eskiY
+        );
+
+
+      if (mesafe > 140) {
+        break;
+      }
+
     }
 
-    // hayır butonu kaçsın ama kaybolmasın
-    function moveNo(){
-      const cardRect = card.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
-      const x = rand(0, cardRect.width - btnRect.width - 20);
-      const y = rand(0, cardRect.height - btnRect.height - 20);
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    }
-    noBtn.addEventListener("mouseenter", moveNo);
-    noBtn.addEventListener("touchstart", e=>{ e.preventDefault(); moveNo(); },{passive:false});
-    noBtn.addEventListener("click", e=>{ e.preventDefault(); moveNo(); });
 
-    moveNo(); // başta da biraz kaydır
-  </script>
+    hayir.style.left =
+      randomX + "px";
+
+    hayir.style.top =
+      randomY + "px";
+
+
+    hayir.style.transform =
+      "rotate(" +
+      (Math.random() * 16 - 8) +
+      "deg)";
+
+  }
+
+
+  /*
+  -----------------------------
+  PC'DE MOUSE GELİNCE KAÇ
+  -----------------------------
+  */
+
+  hayir.addEventListener(
+    "mouseenter",
+    kac
+  );
+
+
+  /*
+  -----------------------------
+  iPHONE / ANDROID
+  PARMAK DEĞMEDEN ÖNCE KAÇ
+  -----------------------------
+  */
+
+  hayir.addEventListener(
+    "touchstart",
+    function(event) {
+
+      event.preventDefault();
+
+      kac();
+
+    },
+    {
+      passive: false
+    }
+  );
+
+
+  /*
+  Pointer Event
+  Safari / Chrome
+  */
+
+  hayir.addEventListener(
+    "pointerdown",
+    function(event) {
+
+      event.preventDefault();
+
+      kac();
+
+    }
+  );
+
+
+  /*
+  Tıklama yine de gerçekleşirse kaç
+  */
+
+  hayir.addEventListener(
+    "click",
+    function(event) {
+
+      event.preventDefault();
+
+      kac();
+
+    }
+  );
+
+
+  /*
+  -----------------------------
+  EVET'E BASINCA
+  -----------------------------
+  */
+
+  evet.addEventListener(
+    "click",
+    function() {
+
+      soruEkrani.style.display =
+        "none";
+
+      hayir.style.display =
+        "none";
+
+      basarili.style.display =
+        "block";
+
+      konfeti();
+
+      navigator.vibrate?.(100);
+
+    }
+  );
+
+
+  /*
+  -----------------------------
+  KONFETİ
+  -----------------------------
+  */
+
+  function konfeti() {
+
+    const renkler = [
+      "#ff4f7b",
+      "#ff85a5",
+      "#ffc0d2",
+      "#ffd166",
+      "#ffffff"
+    ];
+
+
+    for (let i = 0; i < 80; i++) {
+
+      const parca =
+        document.createElement(
+          "div"
+        );
+
+      parca.className =
+        "confetti";
+
+
+      parca.style.left =
+        Math.random() *
+        100 +
+        "vw";
+
+
+      parca.style.background =
+        renkler[
+          Math.floor(
+            Math.random() *
+            renkler.length
+          )
+        ];
+
+
+      parca.style.animationDelay =
+        Math.random() *
+        0.5 +
+        "s";
+
+
+      parca.style.animationDuration =
+        1.5 +
+        Math.random() *
+        1.5 +
+        "s";
+
+
+      document.body.appendChild(
+        parca
+      );
+
+
+      setTimeout(
+        () => parca.remove(),
+        3500
+      );
+
+    }
+
+  }
+
+
+  /*
+  -----------------------------
+  ARKA PLAN KALPLERİ
+  -----------------------------
+  */
+
+  const heartBg =
+    document.getElementById(
+      "heartBg"
+    );
+
+
+  for (
+    let i = 0;
+    i < 18;
+    i++
+  ) {
+
+    const kalp =
+      document.createElement(
+        "div"
+      );
+
+    kalp.className =
+      "heart";
+
+    kalp.innerHTML =
+      Math.random() > 0.5
+        ? "💗"
+        : "💕";
+
+
+    kalp.style.left =
+      Math.random() *
+      100 +
+      "vw";
+
+
+    kalp.style.fontSize =
+      15 +
+      Math.random() *
+      30 +
+      "px";
+
+
+    kalp.style.animationDuration =
+      8 +
+      Math.random() *
+      10 +
+      "s";
+
+
+    kalp.style.animationDelay =
+      Math.random() *
+      10 +
+      "s";
+
+
+    heartBg.appendChild(
+      kalp
+    );
+
+  }
+
+</script>
+
 </body>
 </html>
